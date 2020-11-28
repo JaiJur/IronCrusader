@@ -3,13 +3,13 @@ class Bullet{
 
         this.ctx = ctx;
         
-        this.initX = initX;
-        this.initY = initY;
+        this.x = initX;
+        this.y = initY;
 
         this.targetX = targetX;
         this.targetY = targetY;
 
-        this.angle = Math.atan2(this.targetY - this.initY, this.targetX - this.initX);
+        this.angle = Math.atan2(this.targetY - this.y, this.targetX - this.x);
 
         this.totalVel = {
             velX: Math.cos(this.angle) * 10,
@@ -37,36 +37,33 @@ class Bullet{
     }
     
     draw(){
-
         this.ctx.beginPath();
-        this.ctx.arc(this.initX, this.initY, 5, 0, Math.PI * 2, false);
+        this.ctx.arc(this.x, this.y, 5, 0, Math.PI * 2, false);
         this.ctx.fillStyle = 'red';
         this.ctx.fill();
     }
 
    move() {
-      this.initX = this.initX + this.totalVel.velX;
-      this.initY = this.initY + this.totalVel.velY;
+      this.x = this.x + this.totalVel.velX;
+      this.y = this.y + this.totalVel.velY;
 
-       console.log(this.isDestroy)
-
+       if (this.x > this.ctx.canvas.width ||
+           this.y > this.ctx.canvas.height ||
+           this.y < 0 || this.x < 0) {
+           this.isDestroy = true;
+       } 
     }
       
     collides(anyObject){
     
-        const collide = this.initX + this.width > anyObject.x &&
-        this.initX < anyObject.x + anyObject.width &&
-        this.initY + this.height > anyObject.y &&
-        this.initY < anyObject.y + anyObject.height;
+        const collide = this.x + this.width > anyObject.x &&
+        this.x < anyObject.x + anyObject.width &&
+        this.y + this.height > anyObject.y &&
+        this.y < anyObject.y + anyObject.height;
 
         this.isDestroy = collide;
 
-        if (this.initX > this.ctx.canvas.width ||
-            this.initY > this.ctx.canvas.height ||
-            this.initY < 0 || this.initX < 0) {
-
-            this.isDestroy = true;
-        } 
+       
 
         return collide;
         

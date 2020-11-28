@@ -13,7 +13,7 @@ class GameManager{
 
         this.player = new Player(this.ctx, 400, 400);
 
-        this.zombie = new Zombie(this.ctx, 700,700);
+        this.zombiesArr = []
 
         this.bulletsArr = [];
         this.bulletX = 0;
@@ -41,6 +41,9 @@ class GameManager{
     }
 
     start(){
+
+        this.startEnemies();
+
         if (!this.drawIntervalId) { 
             this.drawIntervalId = setInterval(() => {
                 this.clear();
@@ -48,16 +51,24 @@ class GameManager{
                 this.draw();
                 this.checkCollisions();
                 this.clearObjects();
-                
-                console.log(this.bulletsArr.length)
-
+               //console.log(this.bulletsArr[0])
             }, this.fps);   
+
+
+            
             
         }
+
+    }
+
+    startEnemies(){
+        const zombie = new Zombie(this.ctx, 750, 750)
+        const zombie2 = new Zombie(this.ctx, 750, 200)
+        this.zombiesArr.push(zombie,zombie2)
     }
 
     stop(){
-        clearInterval(this.drawIntervalId); // quitar para que no limpie la pantalla, por ejemplo para crear una pausa
+        clearInterval(this.drawIntervalId); 
         this.drawIntervalId = undefined;
     }
 
@@ -66,10 +77,12 @@ class GameManager{
     }
 
     draw(){
+       
         this.background.draw();
         this.player.draw();
-        this.zombie.draw();
-        this.bulletsArr.forEach(bullet => bullet.draw());
+        this.zombiesArr.forEach(zombie => zombie.draw())
+        this.bulletsArr.forEach(bullet => bullet.draw())
+
     }
 
     move(){
@@ -87,25 +100,22 @@ class GameManager{
     clearObjects(){
 
         this.bulletsArr = this.bulletsArr.filter (bullet => !bullet.isDestroy)
+        this.zombiesArr = this.zombiesArr.filter (zombie => !zombie.isDead)
       
     }
   
-
     checkCollisions(){
 
-        this.bulletsArr.forEach(bullet => {
-
-            if (bullet.collides(this.zombie)) {
-
-                console.log('le he dado al zombie')
-
-                this.zombie.getDamage();
-
+        for (let zombie of this.zombiesArr){
+            for (let bullet of this.bulletsArr){
+                if (zombie.collides(bullet)){
+                    zombie.getDamage();
+                    bullet.collides(zombie);
+                }
             }
+        }
 
-        });
-       
-    };
+    }
 
 }
 

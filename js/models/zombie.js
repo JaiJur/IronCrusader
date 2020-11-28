@@ -7,12 +7,10 @@ class Zombie {
         this.x = x;
         this.y = y;
 
-        this.livePoints = 200;
+        this.width = 0;
+        this.height = 0;
 
-        this.velZombie = {
-            velX: 5,
-            velY: 5
-        }
+        this.livePoints = 200;
 
         this.maxX = Math.floor(this.ctx.canvas.width) - 100;
         this.maxY = Math.floor(this.ctx.canvas.height) - 100;
@@ -41,6 +39,8 @@ class Zombie {
         }
 
         this.drawCount = 0;
+
+        this.isDead = false;
     }  
 
     draw() {
@@ -62,12 +62,7 @@ class Zombie {
         }
     }
 
-    move() {
-        if (this.movement.moving){
-            this.x = this.x + this.velZombie.velX;
-            this.y = this.y + this.velZombie.velY;     }      
-    }
-
+    
     animate() {
         if (this.movement.moving) {
             this.animateSprite(1, 0, 2, 20)
@@ -91,10 +86,15 @@ class Zombie {
         }
     }
 
+    move() {
+
+    }
+
+
     getDamage(){
         this.livePoints -= 50;
 
-        if (this.livePoints < 0){
+        if (this.livePoints <= 0){
             this.death();
         }
 
@@ -103,17 +103,21 @@ class Zombie {
 
     death(){
         
-        console.log('hay que eliminar al zombie');
+        this.isDead = true;
+
         console.log('sumar puntos a la partida');
         
     }
 
     collides(anyObject) {
-
-        return this.x + this.width > anyObject.x &&
+        
+        const zombieCollision = this.x + this.width > anyObject.x &&
             this.x < anyObject.x + anyObject.width &&
             this.y + this.height > anyObject.y &&
             this.y < anyObject.y + anyObject.height;
+
+
+        return zombieCollision;
 
     };
 }
