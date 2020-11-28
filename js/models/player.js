@@ -46,8 +46,6 @@ class Player {
 
         this.sprite.midWidth = this.sprite.width/2;
         this.sprite.midHeight = this.sprite.height/2;
-
-       
         
     }
 

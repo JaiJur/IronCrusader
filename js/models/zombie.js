@@ -34,13 +34,15 @@ class Zombie {
             this.height = this.sprite.frameHeight / 3;
         }
 
+        this.drawCount = 0;
+
+
+        this.isDead = false;
+        this.score = 100;
+
         this.movement = {
             moving: true
         }
-
-        this.drawCount = 0;
-
-        this.isDead = false;
     }  
 
     draw() {
@@ -98,14 +100,13 @@ class Zombie {
             this.death();
         }
 
-        console.log(this.livePoints);
     }
 
     death(){
         
         this.isDead = true;
+        console.log('zombie muerto')
 
-        console.log('sumar puntos a la partida');
         
     }
 
@@ -116,8 +117,13 @@ class Zombie {
             this.y + this.height > anyObject.y &&
             this.y < anyObject.y + anyObject.height;
 
+        if(this.isDead){
+            return false;
+        }
+
 
         return zombieCollision;
 
     };
+
 }

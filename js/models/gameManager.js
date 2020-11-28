@@ -51,12 +51,7 @@ class GameManager{
                 this.draw();
                 this.checkCollisions();
                 this.clearObjects();
-               //console.log(this.bulletsArr[0])
-            }, this.fps);   
-
-
-            
-            
+            }, this.fps);               
         }
 
     }
@@ -64,7 +59,9 @@ class GameManager{
     startEnemies(){
         const zombie = new Zombie(this.ctx, 750, 750)
         const zombie2 = new Zombie(this.ctx, 750, 200)
-        this.zombiesArr.push(zombie,zombie2)
+        const zombie3 = new Zombie(this.ctx, 180, 200)
+        const zombie4 = new Zombie(this.ctx, 180, 750)
+        this.zombiesArr.push(zombie,zombie2,zombie3,zombie4)
     }
 
     stop(){
@@ -112,8 +109,18 @@ class GameManager{
                     zombie.getDamage();
                     bullet.collides(zombie);
                 }
+
+                if (zombie.isDead){
+                    this.setScore(100) 
+                    break;
+                } 
             }
         }
+    }
+
+    setScore(puntos){
+
+        this.score += puntos;
 
     }
 
