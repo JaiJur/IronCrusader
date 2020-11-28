@@ -15,8 +15,6 @@ class GameManager{
 
         this.zombie = new Zombie(this.ctx, 700,700);
 
-        this.bullet = new Bullet()
-
         this.bulletsArr = [];
         this.bulletX = 0;
         this.bulletY = 0;
@@ -30,11 +28,8 @@ class GameManager{
 
     mouseDownEvent(target){
         this.player.mouseDownEvent(target);
-        this.bullet.clickEvent(target);
         this.bulletX = target.x;
         this.bulletY = target.y;  
-        console.log(Math.floor(this.player.x + this.player.width / 2), Math.floor(this.player.y + this.player.height / 2))
-        console.log(this.bulletX, this.bulletY)
         this.createBullet(target);     
         
     }
@@ -50,6 +45,7 @@ class GameManager{
                 this.move();
                 this.draw();
                 this.checkCollisions();
+                this.clearObjects();
                 
             }, this.fps);                       
         }
@@ -76,51 +72,41 @@ class GameManager{
         this.bulletsArr.forEach(bullet => bullet.move())
     }
 
-   createBullet(){
+    createBullet(){
       
        const bullet = new Bullet(this.ctx, Math.floor(this.player.x + this.player.width / 2), Math.floor(this.player.y + this.player.height/2), this.bulletX, this.bulletY)
       
        this.bulletsArr.push(bullet)
-       
-      // this.destroyBulletElapsedTime()
 
        if(this.bulletsArr.length === 10){
+           //this.destroyBullet();
            this.bulletsArr.length = 0
            console.log(this.bulletsArr.length)
        };
        
-   }
-
-  //  destroyBulletElapsedTime() {
-//
-  //      setInterval(() => {
-  //         this.bulletsArr.shift();
-  //      }, 2500)
-//
-  //      clearInterval();
-  //  }
-
-    destroyBulletNow(){
-        this.bulletsArr.shift();
     }
 
+    clearObjects(){
+
+        this.bulletsArr = this.bulletsArr.filter(bullet => !bullet.isDestroy)
+    }
+  
+
     checkCollisions(){
-        if (this.bullet.collides(this.zombie)){
 
-            console.log('le he dado al zombie')
 
-            this.bullet.x = -100;
-            this.bullet.y = -100;
+        this.bulletsArr.forEach(bullet => {
 
-            this.zombie.getDamage();
-            this.destroyBulletNow();
-        }
+            if (bullet.collides(this.zombie)) {
 
-        if (this.bullet.collides(this.player)) {
-            console.log('jugador impactado')
-            this.bullet.x = -100;
-            this.bullet.y = -100;
-        }
+                console.log('le he dado al zombie')
+
+                this.zombie.getDamage();
+
+            }
+
+        });
+       
     };
 
 }

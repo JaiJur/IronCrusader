@@ -47,7 +47,7 @@ class Player {
         this.sprite.midWidth = this.sprite.width/2;
         this.sprite.midHeight = this.sprite.height/2;
 
-        //this.bullet = new Bullet(this.ctx, this.mouseX, this.mouseY);
+       
         
     }
 

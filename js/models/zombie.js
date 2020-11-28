@@ -105,4 +105,13 @@ class Zombie {
         console.log('hay que eliminar al zombie');
         console.log('sumar puntos a la partida')
     }
+
+    collides(anyObject) {
+
+        return this.x + this.width > anyObject.x &&
+            this.x < anyObject.x + anyObject.width &&
+            this.y + this.height > anyObject.y &&
+            this.y < anyObject.y + anyObject.height;
+
+    };
 }

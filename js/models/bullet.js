@@ -28,6 +28,8 @@ class Bullet{
             this.height = this.sprite.height;
         }
 
+        this.isDestroy =  false;
+
     }
 
     clickEvent(target) {
@@ -57,6 +59,8 @@ class Bullet{
         this.ctx.fillStyle = 'red';
         this.ctx.fill();
 
+        // TODO destruir cuando sale
+
        //if (this.sprite.isReady){
        //    this.ctx.drawImage(
        //        this.sprite,
@@ -75,11 +79,21 @@ class Bullet{
       this.initY = this.initY + this.totalVel.velY;
    }
 
+   destroy(){
+       console.log('eliminar bala');
+   }
+
     collides(anyObject){
-        return this.x + this.width > anyObject.x &&
-        this.x < anyObject.x + anyObject.width &&
-        this.y + this.height > anyObject.y &&
-        this.y < anyObject.y + anyObject.height;
+    
+        const collide = this.initX + this.width > anyObject.x &&
+        this.initX < anyObject.x + anyObject.width &&
+        this.initY + this.height > anyObject.y &&
+        this.initY < anyObject.y + anyObject.height;
+
+        this.isDestroy = collide;
+
+        return collide;
+        
     };
 }
 
