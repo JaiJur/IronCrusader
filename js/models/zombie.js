@@ -1,14 +1,11 @@
 class Zombie {
 
-    constructor(ctx, x, y) {
+    constructor(ctx, x, y, playerX, playerY) {
 
         this.ctx = ctx;
 
         this.x = x;
         this.y = y;
-
-        this.width = 0;
-        this.height = 0;
 
         this.livePoints = 200;
 
@@ -36,12 +33,20 @@ class Zombie {
 
         this.drawCount = 0;
 
-
         this.isDead = false;
         this.score = 100;
 
         this.movement = {
             moving: true
+        }
+
+       
+
+        this.zombieAngle = Math.atan2(playerY - this.y, playerX - this.x)
+        
+        this.zombieVel = {
+            velX: Math.cos(this.zombieAngle),
+            velY: Math.sin(this.zombieAngle)
         }
     }  
 
@@ -68,8 +73,6 @@ class Zombie {
     animate() {
         if (this.movement.moving) {
             this.animateSprite(1, 0, 2, 20)
-        } else {
-            this.resetAnimation()
         }
     }
 
@@ -89,25 +92,17 @@ class Zombie {
     }
 
     move() {
-
+        this.x = this.x + this.zombieVel.velX;
+        this.y = this.y + this.zombieVel.velY;
     }
-
 
     getDamage(){
         this.livePoints -= 50;
 
         if (this.livePoints <= 0){
-            this.death();
+            this.isDead = true;
         }
 
-    }
-
-    death(){
-        
-        this.isDead = true;
-        console.log('zombie muerto')
-
-        
     }
 
     collides(anyObject) {
@@ -116,11 +111,6 @@ class Zombie {
             this.x < anyObject.x + anyObject.width &&
             this.y + this.height > anyObject.y &&
             this.y < anyObject.y + anyObject.height;
-
-        if(this.isDead){
-            return false;
-        }
-
 
         return zombieCollision;
 

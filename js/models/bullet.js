@@ -31,10 +31,6 @@ class Bullet{
         this.isDestroy =  false;
 
     }
-
-    clickEvent(target) {
-       
-    }
     
     draw(){
         this.ctx.beginPath();

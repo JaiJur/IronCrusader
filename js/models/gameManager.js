@@ -11,7 +11,7 @@ class GameManager{
 
         this.background = new Background(this.ctx);
 
-        this.player = new Player(this.ctx, 400, 400);
+        this.player = new Player(this.ctx, 465, 475);
 
         this.zombiesArr = []
 
@@ -57,11 +57,11 @@ class GameManager{
     }
 
     startEnemies(){
-        const zombie = new Zombie(this.ctx, 750, 750)
-        const zombie2 = new Zombie(this.ctx, 750, 200)
-        const zombie3 = new Zombie(this.ctx, 180, 200)
-        const zombie4 = new Zombie(this.ctx, 180, 750)
-        this.zombiesArr.push(zombie,zombie2,zombie3,zombie4)
+        const zombie = new Zombie(this.ctx, 750, 750, this.player.x, this.player.y)
+        const zombie2 = new Zombie(this.ctx, 750, 200, this.player.x, this.player.y)
+        const zombie3 = new Zombie(this.ctx, 180, 200, this.player.x, this.player.y)
+        const zombie4 = new Zombie(this.ctx, 180, 750, this.player.x, this.player.y)
+        this.zombiesArr.push(zombie, zombie2,zombie3,zombie4)
     }
 
     stop(){
@@ -85,6 +85,7 @@ class GameManager{
     move(){
         this.player.move();
         this.bulletsArr.forEach(bullet => bullet.move())
+        this.zombiesArr.forEach(zombie => zombie.move())
     }
 
     createBullet(){
@@ -122,6 +123,7 @@ class GameManager{
 
         this.score += puntos;
 
+        console.log(this.score)
     }
 
 }
