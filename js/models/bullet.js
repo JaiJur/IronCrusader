@@ -33,22 +33,6 @@ class Bullet{
     }
 
     clickEvent(target) {
-
-     //  console.log(target.x, target.y)
-     //  this.x = target.x;
-     //  this.y = target.y;  
-     //
-      // this.angle = Math.atan2(this.targetY - this.y, this.targetX - this.x);
-
-     //  console.log(this.angle)
-     //  console.log(target)
-
-         //  this.totalVel = {
-         //  velX: Math.cos(this.angle),
-         //  velY: Math.sin(this.angle)
-         //  }
-
-      //// https://www.youtube.com/watch?v=eI9idPTT0c4 /// <-- la verdad está ahí!
        
     }
     
@@ -58,31 +42,16 @@ class Bullet{
         this.ctx.arc(this.initX, this.initY, 5, 0, Math.PI * 2, false);
         this.ctx.fillStyle = 'red';
         this.ctx.fill();
-
-        // TODO destruir cuando sale
-
-       //if (this.sprite.isReady){
-       //    this.ctx.drawImage(
-       //        this.sprite,
-       //        this.x,
-       //        this.y,
-       //        this.sprite.width,
-       //        this.sprite.height
-       //    )
-
-       //    console.log('pinta la bala')
-       //}      
     }
 
    move() {
       this.initX = this.initX + this.totalVel.velX;
       this.initY = this.initY + this.totalVel.velY;
-   }
 
-   destroy(){
-       console.log('eliminar bala');
-   }
+       console.log(this.isDestroy)
 
+    }
+      
     collides(anyObject){
     
         const collide = this.initX + this.width > anyObject.x &&
@@ -92,9 +61,17 @@ class Bullet{
 
         this.isDestroy = collide;
 
+        if (this.initX > this.ctx.canvas.width ||
+            this.initY > this.ctx.canvas.height ||
+            this.initY < 0 || this.initX < 0) {
+
+            this.isDestroy = true;
+        } 
+
         return collide;
         
-    };
+    }
+
 }
 
 

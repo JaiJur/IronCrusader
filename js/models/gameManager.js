@@ -18,6 +18,8 @@ class GameManager{
         this.bulletsArr = [];
         this.bulletX = 0;
         this.bulletY = 0;
+
+        this.score = 0;
       
     }
 
@@ -47,7 +49,10 @@ class GameManager{
                 this.checkCollisions();
                 this.clearObjects();
                 
-            }, this.fps);                       
+                console.log(this.bulletsArr.length)
+
+            }, this.fps);   
+            
         }
     }
 
@@ -75,25 +80,18 @@ class GameManager{
     createBullet(){
       
        const bullet = new Bullet(this.ctx, Math.floor(this.player.x + this.player.width / 2), Math.floor(this.player.y + this.player.height/2), this.bulletX, this.bulletY)
-      
        this.bulletsArr.push(bullet)
-
-       if(this.bulletsArr.length === 10){
-           //this.destroyBullet();
-           this.bulletsArr.length = 0
-           console.log(this.bulletsArr.length)
-       };
        
     }
 
     clearObjects(){
 
-        this.bulletsArr = this.bulletsArr.filter(bullet => !bullet.isDestroy)
+        this.bulletsArr = this.bulletsArr.filter (bullet => !bullet.isDestroy)
+      
     }
   
 
     checkCollisions(){
-
 
         this.bulletsArr.forEach(bullet => {
 
