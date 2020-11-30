@@ -6,6 +6,10 @@ class Player {
         this.x = x;
         this.y = y;
 
+        this.lives = 5;
+        this.contDamage = 0;
+        this.isDead = false;
+
         this.maxX = Math.floor(this.ctx.canvas.width) -100;
         this.maxY = Math.floor(this.ctx.canvas.height) -100;
         this.minX = 50;
@@ -35,7 +39,8 @@ class Player {
             up: false,
             right: false,
             down: false,
-            left: false
+            left: false,
+            shoot: false
         }
 
         this.drawCount = 0;
@@ -80,8 +85,10 @@ class Player {
     }
 
     mouseDownEvent(target) {
-   
-       // console.log(target.x, target.y)
+       this.movement.shoot = true;
+    }
+    mouseUpEvent(target) {
+        this.movement.shoot = false;
     }
 
     // METODOS
@@ -108,7 +115,6 @@ class Player {
             
             this.drawCount++;
             this.animate();
-
             
         }
     }
@@ -156,14 +162,14 @@ class Player {
         } else if (this.movement.left){
             this.animateSprite(4,0,2,15)
       
-        } else if(this.movement.up){
+        } else if (this.movement.up){
             this.animateSprite(3,0,2,15)
            
-        } else if(this.movement.down){
+        } else if (this.movement.down){
             this.animateSprite(1,0,2,15)
          
-        } else {
-           // this.resetAnimation()        
+        } else if (this.movement.shoot){
+           this.animateSprite(0,0,2,1)       
         }       
     }
 
@@ -179,6 +185,25 @@ class Player {
         } else if (this.drawCount % frequency === 0){
             this.sprite.horizontalFramesIndex = (this.sprite.horizontalFramesIndex + 1) % segments;
             this.drawCount = 0;
+        }
+    }
+
+    getDamage(){
+       
+        this.contDamage ++;
+       
+        if (this.contDamage > 50){
+            this.lives--;
+            this.contDamage = 0;
+            console.log('recibe daño ', this.lives)
+        }
+        
+        console.log('recibe daño ', this.lives)
+
+        if (this.lives < 1){
+            this.isDead = true;
+            this.sprite.isReady = false;
+            console.log( 'muere' )
         }
     }
 }

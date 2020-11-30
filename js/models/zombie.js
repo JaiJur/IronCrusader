@@ -36,18 +36,18 @@ class Zombie {
         this.isDead = false;
         this.score = 100;
 
-        this.movement = {
-            moving: true
+        this.state = {
+            moving: true,
+            attack: false
         }
+
+        this.zombieAngle = 0;
+
+        this.playerX = playerX;
+        this.playerY = playerY;
+
 
        
-
-        this.zombieAngle = Math.atan2(playerY - this.y, playerX - this.x)
-        
-        this.zombieVel = {
-            velX: Math.cos(this.zombieAngle),
-            velY: Math.sin(this.zombieAngle)
-        }
     }  
 
     draw() {
@@ -71,8 +71,12 @@ class Zombie {
 
     
     animate() {
-        if (this.movement.moving) {
+        if (this.state.moving) {
             this.animateSprite(1, 0, 2, 20)
+        }
+
+        if (this.state.attack){
+            this.animateSprite(2, 0, 2, 20)
         }
     }
 
@@ -91,15 +95,38 @@ class Zombie {
         }
     }
 
-    move() {
-        this.x = this.x + this.zombieVel.velX;
-        this.y = this.y + this.zombieVel.velY;
+    move(playerY, playerX) {
+
+        if (this.state.moving){
+
+            this.zombieAngle = Math.atan2(playerY - this.y, playerX - this.x)
+
+            this.zombieVel = {
+                velX: Math.cos(this.zombieAngle),
+                velY: Math.sin(this.zombieAngle)
+            }
+
+            this.x += this.zombieVel.velX;
+            this.y += this.zombieVel.velY;
+
+            if (this.x > this.maxX) {
+                this.zombieVel.velX = -this.zombieVel.velX;
+            } else if (this.x < this.minX) {
+                this.zombieVel.velX = -this.zombieVel.velX;    
+            } else if (this.y < this.minY) {
+                this.zombieVel.velY = -this.zombieVel.velY;
+            } else if (this.y > this.maxY) {
+                this.zombieVel.velY = -this.zombieVel.velY;         
+            }
+        }
     }
 
     getDamage(){
+
         this.livePoints -= 50;
 
         if (this.livePoints <= 0){
+
             this.isDead = true;
         }
 
@@ -115,5 +142,4 @@ class Zombie {
         return zombieCollision;
 
     };
-
 }

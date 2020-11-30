@@ -34,7 +34,7 @@ class Bullet{
     
     draw(){
         this.ctx.beginPath();
-        this.ctx.arc(this.x, this.y, 5, 0, Math.PI * 2, false);
+        this.ctx.arc(this.x, this.y, 3, 0, Math.PI * 2, false);
         this.ctx.fillStyle = 'red';
         this.ctx.fill();
     }

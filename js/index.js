@@ -16,6 +16,10 @@ window.addEventListener('load', () => {
         gameManager.mouseDownEvent(target);
     })
 
+    document.addEventListener('mouseup', (target) => {
+        gameManager.mouseUpEvent(target);
+    })
+
     document.addEventListener('mousemove', (target) => {
         gameManager.mouseMove(target)
     })

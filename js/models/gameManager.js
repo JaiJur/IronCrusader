@@ -36,6 +36,10 @@ class GameManager{
         
     }
 
+    mouseUpEvent(target) {
+        this.player.mouseUpEvent(target);
+    }
+
     onKeyEvent(event){
         this.player.onKeyEvent(event);
     }
@@ -46,6 +50,7 @@ class GameManager{
 
         if (!this.drawIntervalId) { 
             this.drawIntervalId = setInterval(() => {
+                this.update();
                 this.clear();
                 this.move();
                 this.draw();
@@ -56,12 +61,21 @@ class GameManager{
 
     }
 
+    update(){
+        if (this.player.isDead){
+            this.stop();
+            
+        }
+    }
+
     startEnemies(){
+        
         const zombie = new Zombie(this.ctx, 750, 750, this.player.x, this.player.y)
         const zombie2 = new Zombie(this.ctx, 750, 200, this.player.x, this.player.y)
         const zombie3 = new Zombie(this.ctx, 180, 200, this.player.x, this.player.y)
         const zombie4 = new Zombie(this.ctx, 180, 750, this.player.x, this.player.y)
-        this.zombiesArr.push(zombie, zombie2,zombie3,zombie4)
+
+        this.zombiesArr.push(zombie, zombie2, zombie3, zombie4)
     }
 
     stop(){
@@ -85,7 +99,7 @@ class GameManager{
     move(){
         this.player.move();
         this.bulletsArr.forEach(bullet => bullet.move())
-        this.zombiesArr.forEach(zombie => zombie.move())
+        this.zombiesArr.forEach(zombie => zombie.move(this.player.y, this.player.x))
     }
 
     createBullet(){
@@ -117,14 +131,28 @@ class GameManager{
                 } 
             }
         }
+
+        for (let zombie of this.zombiesArr){
+
+            if (zombie.collides(this.player)){         
+                
+                zombie.state.moving = false;
+                zombie.state.attack = true;     
+
+                this.player.getDamage();               
+
+            } else {
+
+                zombie.state.moving = true;
+                zombie.state.attack = false;
+            }
+        }
     }
 
     setScore(puntos){
 
         this.score += puntos;
-
         console.log(this.score)
     }
-
 }
 
