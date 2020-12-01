@@ -47,6 +47,7 @@ class Bullet{
            this.y > this.ctx.canvas.height ||
            this.y < 0 || this.x < 0) {
            this.isDestroy = true;
+           
        } 
     }
       
@@ -58,8 +59,6 @@ class Bullet{
         this.y < anyObject.y + anyObject.height;
 
         this.isDestroy = collide;
-
-       
 
         return collide;
         

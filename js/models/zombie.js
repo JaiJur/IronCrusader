@@ -7,7 +7,7 @@ class Zombie {
         this.x = x;
         this.y = y;
 
-        this.livePoints = 200;
+        this.livePoints = 300;
 
         this.maxX = Math.floor(this.ctx.canvas.width) - 100;
         this.maxY = Math.floor(this.ctx.canvas.height) - 100;
@@ -29,6 +29,7 @@ class Zombie {
             this.sprite.frameHeight = Math.floor(this.sprite.height / this.sprite.verticalFrames);
             this.width = this.sprite.frameWidth / 3;
             this.height = this.sprite.frameHeight / 3;
+            
         }
 
         this.drawCount = 0;
@@ -52,6 +53,9 @@ class Zombie {
 
     draw() {
         if (this.sprite.isReady) {
+           
+            this.ctx.save()
+
             this.ctx.drawImage(
                 this.sprite,
                 this.sprite.frameWidth * this.sprite.horizontalFramesIndex,
@@ -64,8 +68,11 @@ class Zombie {
                 this.height
             )
 
+            this.ctx.restore();
+         
             this.drawCount++;
             this.animate();
+
         }
     }
 
@@ -94,6 +101,7 @@ class Zombie {
             this.drawCount = 0;
         }
     }
+
 
     move(playerY, playerX) {
 

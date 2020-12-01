@@ -97,9 +97,9 @@ class Player {
         if (this.sprite.isReady){
             
             
-            this.ctx.rotate(this.rotation * (Math.PI/180)); //con esta instrucción muevo todo el window desde el 00 
+           // this.ctx.rotate(this.rotation * (Math.PI/180)); //con esta instrucción muevo todo el window desde el 00 
 
-           // this.sprite.angle += this.rotation * (Math.PI/180);
+      
             
             this.ctx.drawImage(
                 this.sprite,
@@ -188,7 +188,7 @@ class Player {
         }
     }
 
-    getDamage(){
+    getDamageZombie(){
        
         this.contDamage ++;
        
@@ -197,13 +197,22 @@ class Player {
             this.contDamage = 0;
             console.log('recibe daño ', this.lives)
         }
-        
-        console.log('recibe daño ', this.lives)
 
         if (this.lives < 1){
             this.isDead = true;
             this.sprite.isReady = false;
             console.log( 'muere' )
+        }
+    }
+
+    getDamageTurret() {
+            this.lives--;
+            console.log('recibe daño ', this.lives)
+
+        if (this.lives < 1) {
+            this.isDead = true;
+            this.sprite.isReady = false;
+            console.log('muere')
         }
     }
 }

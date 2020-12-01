@@ -1,35 +1,63 @@
 class Turret {
 
-    constructor(ctx, x, y) {
+    constructor(ctx, x, y, playerX, playerY) {
 
         this.ctx = ctx;
+
         this.x = x;
         this.y = y;
 
-        this.vx = 0;
-        this.vy = 0;
+        this.livePoints = 500;
 
         this.sprite = new Image();
         this.sprite.src = 'images/turret-img.png'
         this.sprite.isReady = false;
 
+        this.sprite.horizontalFrames = 1;
+        this.sprite.verticalFrames = 1;
+        this.sprite.verticalFramesIndex = 0;
+        this.sprite.horizontalFramesIndex = 0;
+
         this.sprite.onload = () => {
             this.sprite.isReady = true;
-            this.sprite.width = sprite.width;
-            this.sprite.height = sprite.height;
+            this.sprite.frameWidth = this.sprite.width;
+            this.sprite.frameHeight = this.sprite.height;
+            this.width = this.sprite.frameWidth / 10;
+            this.height = this.sprite.frameHeight / 10;
         }
 
-        this.aiming = {
-            aiming: false
+        this.triggerCont = 0;
+        this.isFiring = false;
+
+        this.isDead = false;
+        this.score = 100;
+
+        this.state = {
+            looking: true,
+            attack: false
         }
 
-    }
+        this.turretAngle = 0;
 
-  
+        this.playerX = playerX;
+        this.playerY = playerY;
+       
+    }  
 
-    draw() {
+    draw(playerY, playerX) {
+
         if (this.sprite.isReady) {
+           
+            this.ctx.save()
+
+            this.ctx.translate(this.x + this.width/3 , this.y + this.height/2)
+
+            this.rotateTurret(playerY, playerX)
+
+            this.ctx.translate(-this.x - this.width/3, -this.y - this.height/2 )
+
             this.ctx.drawImage(
+                
                 this.sprite,
                 this.sprite.frameWidth * this.sprite.horizontalFramesIndex,
                 this.sprite.frameHeight * this.sprite.verticalFramesIndex,
@@ -41,46 +69,58 @@ class Turret {
                 this.height
             )
 
-            this.drawCount++;
-            this.animate();
+            this.ctx.restore();
+            
+            this.triggerCont++;
+            
+            if (this.triggerCont >= 100) {
+                this.triggerCont = 0;
+                this.shoot();
+            }
         }
     }
 
-    move() {
-        if (this.movement.moving){
-            this.vx = SPEED;
-        }
+    rotateTurret(playerY, playerX) {
 
-      
-    }
-
-    animate() {
-        if (this.movement.moving) {
-            this.animateSprite(1, 0, 2, 20)
-
+        if (this.state.looking){
         
+            this.turretAngle = Math.atan2(playerY - this.y, playerX - this.x)
+           
+            this.ctx.rotate(this.turretAngle)
+          
+        }
+    }
 
-        } else {
-            this.resetAnimation()
+    getDamage(){
+
+        this.livePoints -= 50;
+
+        console.log('recibe autodaño')
+
+        if (this.livePoints <= 0){
+
+            this.isDead = true;
 
         }
 
-
     }
 
-    resetAnimation() {
-        this.sprite.verticalFramesIndex = 0;
-        this.sprite.horizontalFramesIndex = 0;
-    }
+    collides(anyObject) {
+        
+        const zombieCollision = this.x + this.width > anyObject.x &&
+            this.x < anyObject.x + anyObject.width &&
+            this.y + this.height > anyObject.y &&
+            this.y < anyObject.y + anyObject.height;
 
+        return zombieCollision;
 
-    animateSprite(initialVerticalIndex, initialHorizontalIndex, segments, frequency) {
-        if (this.sprite.verticalFramesIndex != initialVerticalIndex) {
-            this.sprite.verticalFramesIndex = initialVerticalIndex;
-            this.sprite.horizontalFramesIndex = initialHorizontalIndex;
-        } else if (this.drawCount % frequency === 0) {
-            this.sprite.horizontalFramesIndex = (this.sprite.horizontalFramesIndex + 1) % segments;
-            this.drawCount = 0;
-        }
+    };
+
+    shoot(){
+
+        this.isFiring = true;
+
+        this.isFiring = false;
+        
     }
 }
