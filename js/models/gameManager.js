@@ -18,8 +18,10 @@ class GameManager{
         this.bulletY = 0;
 
         this.zombiesArr = []
+        this.zombieCounter = 0;
 
         this.turretsArr = []
+        this.turretCounter = 0;
         this.turretBulletsArr = []
 
         this.crono = new Crono;
@@ -48,7 +50,7 @@ class GameManager{
     start(){
 
         this.crono.startCrono();
-        
+
         this.startEnemies();
 
         if (!this.drawIntervalId) { 
@@ -72,24 +74,48 @@ class GameManager{
             console.log(this.score)
         }
 
+       if(this.zombieCounter === 150){
+           this.createZombie();
+           this.zombieCounter = 0;
+       }
+
+        if(this.turretCounter === 400){
+            this.createTurret();
+            this.turretCounter = 0;
+        }
+
+        this.zombieCounter++;
+        this.turretCounter++;
+       
         this.crono.contando();
         
     }
 
-    startEnemies(){
-        
-        const turret = new Turret (this.ctx, 50, 50)
-        const turret2 = new Turret (this.ctx, 900, 50)
-        const turret3 = new Turret(this.ctx, 900, 900)
-        const turret4 = new Turret(this.ctx, 50, 900)
-        this.turretsArr.push(turret, turret2, turret3, turret4)
-        
-        const zombie = new Zombie(this.ctx, 750, 750, this.player.x, this.player.y)
-        const zombie2 = new Zombie(this.ctx, 750, 200, this.player.x, this.player.y)
-        const zombie3 = new Zombie(this.ctx, 180, 200, this.player.x, this.player.y)
-        const zombie4 = new Zombie(this.ctx, 180, 750, this.player.x, this.player.y)
+    createZombie(){
 
-        this.zombiesArr.push(zombie, zombie2, zombie3, zombie4)
+        if (this.zombiesArr.length <= 8) {
+            const zombiePositions = [{x:750, y:750}, { x:750, y:200}, { x:180, y:200}, { x:180, y:750}]
+            const randomZombiePos = Math.floor(Math.random() * zombiePositions.length)
+            const zombie = new Zombie(this.ctx, zombiePositions[randomZombiePos].x, zombiePositions[randomZombiePos].y, this.player.x, this.player.y)
+            this.zombiesArr.push(zombie);
+        }
+    }
+
+    createTurret(){
+
+        if (this.turretsArr.length <= 5){
+            const turretPositions = [{ x: 50, y: 50 }, { x: 900, y: 50 }, { x: 900, y: 900 }, { x: 50, y: 900} ]
+            const randomTurretPos = Math.floor(Math.random() * turretPositions.length)
+            const turret = new Turret(this.ctx, turretPositions[randomTurretPos].x, turretPositions[randomTurretPos].y)
+            this.turretsArr.push(turret)
+        }
+        
+    }
+    startEnemies(){
+
+        const zombie = new Zombie(this.ctx, 750, 750, this.player.x, this.player.y)
+        this.zombiesArr.push(zombie)
+    
     }
 
     stop(){

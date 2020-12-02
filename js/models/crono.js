@@ -20,14 +20,14 @@ class Crono{
         if (this.isCounting){
             this.countTime++;
             this.seconds = Math.floor(this.countTime / 60);
-            this.minutes = Math.floor(this.seconds / 60);
+            
         }
     }
 
     stopCrono(){
 
         this.isCounting = false;
-        console.log(`tiempo: minutos ${this.minutes} y segundos ${this.seconds}`)
+        console.log(`tiempo: segundos ${this.seconds}`)
 
     };
 
