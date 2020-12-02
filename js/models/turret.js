@@ -95,8 +95,6 @@ class Turret {
 
         this.livePoints -= 50;
 
-        console.log('recibe autodaño')
-
         if (this.livePoints <= 0){
 
             this.isDead = true;

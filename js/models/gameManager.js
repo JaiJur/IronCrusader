@@ -1,6 +1,7 @@
 class GameManager{
 
     constructor(canvasId){
+
         this.canvas = document.getElementById(canvasId);
         this.canvas.width = 1024;
         this.canvas.height = 1024;
@@ -21,6 +22,7 @@ class GameManager{
         this.turretsArr = []
         this.turretBulletsArr = []
 
+        this.crono = new Crono;
         this.score = 0;
     }
 
@@ -45,6 +47,8 @@ class GameManager{
 
     start(){
 
+        this.crono.startCrono();
+        
         this.startEnemies();
 
         if (!this.drawIntervalId) { 
@@ -64,17 +68,21 @@ class GameManager{
 
         if (this.player.isDead){
             this.stop();
+            this.crono.stopCrono();
+            console.log(this.score)
         }
+
+        this.crono.contando();
         
     }
 
     startEnemies(){
         
-       // const turret = new Turret (this.ctx, 50, 50)
-       // const turret2 = new Turret (this.ctx, 900, 50)
-       // const turret3 = new Turret(this.ctx, 900, 900)
-       // const turret4 = new Turret(this.ctx, 50, 900)
-       // this.turretsArr.push(turret, turret2, turret3, turret4)
+        const turret = new Turret (this.ctx, 50, 50)
+        const turret2 = new Turret (this.ctx, 900, 50)
+        const turret3 = new Turret(this.ctx, 900, 900)
+        const turret4 = new Turret(this.ctx, 50, 900)
+        this.turretsArr.push(turret, turret2, turret3, turret4)
         
         const zombie = new Zombie(this.ctx, 750, 750, this.player.x, this.player.y)
         const zombie2 = new Zombie(this.ctx, 750, 200, this.player.x, this.player.y)
@@ -85,15 +93,18 @@ class GameManager{
     }
 
     stop(){
+
         clearInterval(this.drawIntervalId); 
         this.drawIntervalId = undefined;
     }
 
     clear(){
+
         this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
     }
 
     draw(){
+
         this.background.draw();
         this.player.draw();
         this.zombiesArr.forEach(zombie => zombie.draw())
@@ -103,6 +114,7 @@ class GameManager{
     }
 
     move(){
+
         this.player.move();
         this.bulletsArr.forEach(bullet => bullet.move())
         this.turretBulletsArr.forEach(bullet => bullet.move())
@@ -110,7 +122,7 @@ class GameManager{
     }
 
     createBullet(){
-      
+
        const bullet = new Bullet(this.ctx, Math.floor(this.player.x + this.player.width / 2), Math.floor(this.player.y + this.player.height/2), this.bulletX, this.bulletY)
        this.bulletsArr.push(bullet)
     }
