@@ -70,11 +70,11 @@ class GameManager{
 
     startEnemies(){
         
-        const turret = new Turret (this.ctx, 50, 50)
-        const turret2 = new Turret (this.ctx, 900, 50)
-        const turret3 = new Turret(this.ctx, 900, 900)
-        const turret4 = new Turret(this.ctx, 50, 900)
-        this.turretsArr.push(turret, turret2, turret3, turret4)
+       // const turret = new Turret (this.ctx, 50, 50)
+       // const turret2 = new Turret (this.ctx, 900, 50)
+       // const turret3 = new Turret(this.ctx, 900, 900)
+       // const turret4 = new Turret(this.ctx, 50, 900)
+       // this.turretsArr.push(turret, turret2, turret3, turret4)
         
         const zombie = new Zombie(this.ctx, 750, 750, this.player.x, this.player.y)
         const zombie2 = new Zombie(this.ctx, 750, 200, this.player.x, this.player.y)

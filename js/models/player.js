@@ -78,7 +78,6 @@ class Player {
     }
 
     mouseMove(target) {
-        this.rotatePlayer(target);
         this.mouseX = target.x;
         this.mouseY = target.y;
         
@@ -96,10 +95,13 @@ class Player {
     draw() {
         if (this.sprite.isReady){
             
+            this.ctx.save()
             
-           // this.ctx.rotate(this.rotation * (Math.PI/180)); //con esta instrucción muevo todo el window desde el 00 
+            this.ctx.translate(this.x + this.width/2, this.y + this.height/2)
 
-      
+            this.rotatePlayer()
+
+            this.ctx.translate(-this.x - this.width / 2, -this.y - this.height / 2)      
             
             this.ctx.drawImage(
                 this.sprite,
@@ -113,6 +115,8 @@ class Player {
                 this.height
             );
             
+            this.ctx.restore()
+
             this.drawCount++;
             this.animate();
             
@@ -124,6 +128,8 @@ class Player {
             this.mouseY - this.y,
             this.mouseX - this.x
          );     
+
+         this.ctx.rotate(angle)
     }
 
     move(){

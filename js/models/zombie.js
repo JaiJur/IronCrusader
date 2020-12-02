@@ -56,6 +56,10 @@ class Zombie {
            
             this.ctx.save()
 
+            this.ctx.translate(this.x + this.width / 2, this.y + this.height / 2)
+            this.ctx.rotate(this.zombieAngle)
+            this.ctx.translate(-this.x - this.width / 2, - this.y - this.height / 2)
+
             this.ctx.drawImage(
                 this.sprite,
                 this.sprite.frameWidth * this.sprite.horizontalFramesIndex,
