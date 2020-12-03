@@ -19,25 +19,34 @@ class Crono{
 
         if (this.isCounting){
             this.countTime++;
-            this.seconds = Math.floor(this.countTime / 60);
-            
+            this.minutes = Math.floor((this.countTime / 3600) );
+            this.seconds = Math.floor((this.countTime / 60) % 60)
         }
     }
 
     stopCrono(){
 
         this.isCounting = false;
-        console.log(`tiempo: segundos ${this.seconds}`)
 
     };
 
     resetCrono(){
-
         this.countTime = 0;
     }
 
-    pushTime(){
-        // esta funcion pasa el tiempo al finalizar partida
-    };
+    printTime() {
+
+        let min = document.getElementById('data-min')
+        let sec = document.getElementById('data-sec')
+
+        sec.innerHTML = this.seconds;
+        min.innerHTML = this.minutes;
+    }
+
 
 }
+
+
+
+
+

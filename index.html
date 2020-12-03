@@ -7,10 +7,85 @@
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-    <div id="frame-game">
+    <div id="frame-game"> 
+        <div>
         <canvas id="game-canvas"></canvas>
-    </div>
+        </div>
 
+        <div class="interface">
+
+            <div class="container vert-cont game-stats">
+
+                    <h1>Game Stats</h1>
+
+                    <div class="ranking">
+
+                        <div class="col-izq">
+                            <div>Lifes</div>
+                            <div>Time</div>
+                            <div>Kills</div>
+                            <div>Score</div>
+                            <div>Last </div>
+                            <div>Best </div>
+                           
+                        </div>
+
+                        <div class="col-der">
+
+                            <div class="hor-cont data-stats">
+                                <div class="life-icon" id="life-01"></div>
+                                <div class="life-icon" id="life-02"></div>
+                                <div class="life-icon" id="life-03"></div>
+                                <div class="life-icon" id="life-04"></div>
+                                <div class="life-icon" id="life-05"></div>
+                            </div>
+
+                            <div class="data-stats">
+                                <div id="data-min">00</div>
+                                <div id="data-sec">00</div> 
+                            </div>
+
+                            <div class="data-stats" id="data-kills">0</div> 
+                            <div class="data-stats" id="data-score">0</div>
+                            <div class="data-stats" id="data-last">0</div>
+                            <div class="data-stats" id="data-best">0</div>
+                            
+                        </div>
+                    </div>       
+            </div>
+
+            <div class="container vert-cont">
+
+                <h1>Top 10 Scores</h1>
+                <div class="ranking">
+                    <ul class="col-izq">
+                         <li>Ironhacker 1</li>
+                         <li>Ironhacker 2</li>
+                         <li>Ironhacker 3</li>
+                         <li>Ironhacker 4</li>
+                         <li>Ironhacker 5</li>
+                         <li>Ironhacker 6</li>
+                         <li>Ironhacker 7</li>
+                         <li>Ironhacker 8</li>
+                         <li>Ironhacker 9</li>
+                         <li>Ironhacker 10</li>
+                    </ul>
+                    <ul class="col-der">
+                        <li>000000000</li>
+                        <li>000000000</li>
+                        <li>000000000</li>
+                        <li>000000000</li>
+                        <li>000000000</li>
+                        <li>000000000</li>
+                        <li>000000000</li>
+                        <li>000000000</li>
+                        <li>000000000</li>
+                        <li>000000000</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <script src="js/constants.js"></script>
     <script src="js/models/crono.js"></script>

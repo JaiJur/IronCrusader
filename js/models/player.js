@@ -174,8 +174,6 @@ class Player {
         } else if (this.movement.down){
             this.animateSprite(1,0,2,15)
          
-        } else if (this.movement.shoot){
-           this.animateSprite(0,0,2,1)       
         }       
     }
 
@@ -197,10 +195,14 @@ class Player {
     getDamageZombie(){
        
         this.contDamage ++;
-       
+
+        
         if (this.contDamage > 50){
+            this.ctx.fillStyle = "red";
+            this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
             this.lives--;
             this.contDamage = 0;
+
             console.log('recibe daño ', this.lives)
         }
 
@@ -212,13 +214,58 @@ class Player {
     }
 
     getDamageTurret() {
-            this.lives--;
-            console.log('recibe daño ', this.lives)
+
+        this.lives--;
+
+        this.ctx.fillStyle = "red";
+
+        this.ctx.fillRect(0,0,this.ctx.canvas.width, this.ctx.canvas.height)
+
+        console.log('recibe daño ', this.lives)
 
         if (this.lives < 1) {
             this.isDead = true;
             this.sprite.isReady = false;
             console.log('muere')
         }
+    }
+
+    setLivesStats(){
+
+       
+        let life1 = document.getElementById('life-01')
+        let life2 = document.getElementById('life-02')
+        let life3 = document.getElementById('life-03')
+        let life4 = document.getElementById('life-04')
+        let life5 = document.getElementById('life-05')
+
+       if (this.lives === 4){
+           life1.classList.add('ocultar')
+       } else if (this.lives === 3){
+           life2.classList.add('ocultar')
+       } else if (this.lives === 2){
+            life3.classList.add('ocultar')
+       } else if (this.lives === 1){
+           life4.classList.add('ocultar')
+       } else if (this.lives === 0){
+           life5.classList.add('ocultar')
+       } 
+
+    }
+
+    resetLives(){
+
+        let life1 = document.getElementById('life-01')
+        let life2 = document.getElementById('life-02')
+        let life3 = document.getElementById('life-03')
+        let life4 = document.getElementById('life-04')
+        let life5 = document.getElementById('life-05')
+
+        life1.classList.remove('ocultar')
+        life2.classList.remove('ocultar')
+        life3.classList.remove('ocultar')
+        life4.classList.remove('ocultar')
+        life5.classList.remove('ocultar')
+
     }
 }

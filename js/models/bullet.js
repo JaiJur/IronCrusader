@@ -33,10 +33,17 @@ class Bullet{
     }
     
     draw(){
+
+        this.ctx.save()
+
         this.ctx.beginPath();
-        this.ctx.arc(this.x, this.y, 3, 0, Math.PI * 2, false);
+        this.ctx.translate(this.x, this.y)
+        this.ctx.rotate(this.angle)
+        this.ctx.translate(-this.x, -this.y)
         this.ctx.fillStyle = 'red';
+        this.ctx.fillRect(this.x, this.y , 15, 2)
         this.ctx.fill();
+        this.ctx.restore();
     }
 
    move() {

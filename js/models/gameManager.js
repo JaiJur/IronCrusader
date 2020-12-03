@@ -26,6 +26,8 @@ class GameManager{
 
         this.crono = new Crono;
         this.score = 0;
+        this.toRestart = false;
+        this.kills = 0;
     }
 
     mouseMove(target){
@@ -37,6 +39,10 @@ class GameManager{
         this.bulletX = target.x;
         this.bulletY = target.y;  
         this.createBullet(target);     
+
+        if(this.toRestart){
+            this.restartGame();
+        }
     }
 
     mouseUpEvent(target) {
@@ -48,6 +54,9 @@ class GameManager{
     }
 
     start(){
+
+        this.score = 0;
+        this.kills = 0;
 
         this.crono.startCrono();
 
@@ -68,16 +77,38 @@ class GameManager{
 
     update(){
 
+        this.crono.printTime()
+        this.setGameStats()
+        this.player.setLivesStats();
+
         if (this.player.isDead){
+
+            this.toRestart = true;
+
+            console.log(`el tiempo: ${this.crono.minutes}:${this.crono.seconds}, puntuación total ${this.score + this.crono.seconds}  y has matado ${this.kills} enemigos`)
+           
+            let bestScore = document.getElementById('data-best')
+            let lastScore = document.getElementById('data-last')
+
+            lastScore.innerHTML = this.score + Math.floor(this.crono.countTime / 60);
+
+            if (this.score > lastScore){
+                bestScore.innerHTML = this.score + Math.floor(this.crono.countTime / 60);
+            } else {
+                
+            }
+            
+            this.resetEnemies();
             this.stop();
             this.crono.stopCrono();
-            console.log(this.score)
         }
 
-       if(this.zombieCounter === 150){
+
+
+        if(this.zombieCounter === 150){
            this.createZombie();
            this.zombieCounter = 0;
-       }
+        }
 
         if(this.turretCounter === 400){
             this.createTurret();
@@ -109,19 +140,31 @@ class GameManager{
             const turret = new Turret(this.ctx, turretPositions[randomTurretPos].x, turretPositions[randomTurretPos].y)
             this.turretsArr.push(turret)
         }
-        
     }
+
     startEnemies(){
 
-        const zombie = new Zombie(this.ctx, 750, 750, this.player.x, this.player.y)
-        this.zombiesArr.push(zombie)
-    
+        this.resetGameStats();
+        this.score = 0;
+        this.kills = 0;
+        this.createZombie()
+    }
+
+    resetEnemies(){
+        for (let zombie of this.zombiesArr) { zombie.isDead = true; }
+
+        for (let turret of this.turretsArr) { turret.isDead = true; }
+
+        for (let bullet of this.turretBulletsArr) { bullet.isDestroy = true; }
+
+        for (let bullet of this.bulletsArr) { bullet.isDestroy = true; }
     }
 
     stop(){
 
         clearInterval(this.drawIntervalId); 
         this.drawIntervalId = undefined;
+        
     }
 
     clear(){
@@ -159,7 +202,7 @@ class GameManager{
          
             if (turret.triggerCont === 99){
                 
-                const turretBullet = new Bullet(this.ctx, Math.floor(turret.x + turret.width/3), Math.floor(turret.y + turret.height/2), this.player.x, this.player.y)
+                const turretBullet = new Bullet(this.ctx, Math.floor(turret.x + turret.width/3), Math.floor(turret.y + turret.height/2), this.player.x + this.player.width/2, this.player.y + this.player.height/2)
                 this.turretBulletsArr.push(turretBullet) 
             }
         }
@@ -183,6 +226,7 @@ class GameManager{
                 }
 
                 if (zombie.isDead){
+                    this.kills++
                     this.setScore(100) 
                     break;
                 } 
@@ -205,6 +249,7 @@ class GameManager{
                 }
 
                 if (turret.isDead) {
+                    this.kills++
                     this.setScore(200)
                     break;
                 }
@@ -232,6 +277,38 @@ class GameManager{
 
         this.score += puntos;
        
+    }
+
+    restartGame(){
+
+        if (this.toRestart){
+          
+            this.resetEnemies();
+            this.resetGameStats();
+            this.player = new Player(this.ctx, 465, 475);
+            this.toRestart = false;
+            this.start(); 
+        }
+    }
+
+    resetGameStats() {
+
+        this.crono.resetCrono();
+        this.score = 0;
+        this.zombieCounter = 0;
+        this.turretCounter = 0;
+        this.kills = 0;
+        this.player.resetLives();
+    }
+
+    setGameStats(){
+
+        let kills = document.getElementById('data-kills')
+        let score = document.getElementById('data-score')
+        
+
+        kills.innerHTML = this.kills;
+        score.innerHTML = this.score + Math.floor(this.crono.countTime/60);
     }
 }
 

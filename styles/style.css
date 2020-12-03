@@ -3,7 +3,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    
+    color: white;
     
 }
 
@@ -12,14 +12,110 @@ body * {
     background-color: black;
 }
 
-/*
+p{
+    margin: 0;
+    padding: 0;
+}
+
 #frame-game{
+  display: flex;
+  max-height: 1024px;
+}
+
+.interface{
     display: flex;
+    flex-direction: column;
+    margin-top:25px;
+
+}
+
+.vert-cont{
+    display: flex;
+    flex-direction: column;
+}
+
+.hor-cont{
+    display: flex;
+    flex-direction: row;
     justify-content: space-around;
     align-items: center;
 }
-*/
+
+
 #frame-game:hover{
     cursor: crosshair;
-    color: green;
+   
 }
+
+h1{
+    color: white;
+    text-align: center;
+}
+
+
+.container{
+    width: 500px;
+    height: 500px;
+    margin: 25px;
+    border: 3px solid red;
+    width: 500px;
+    height: auto;
+}
+
+.game-stats div{
+    margin-left:25px;
+    font-size: 35px;
+}
+
+.game-stats{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom:25px;
+}
+
+.data-stats{
+    height: 40px;
+    margin-right: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.life-icon{
+    height: 15px;
+    width: 15px;
+    background-color: red;
+}
+
+.ranking{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 25px;
+}
+
+.col-izq{
+    padding-top:0px;
+    margin-top: 0px;
+    list-style: none;
+    text-decoration: none;
+    font-size: 30px;
+    align-items: flex-start;
+}
+.col-der{
+    padding-top:0px;
+    margin-top: 0px;
+    list-style: none;
+    text-decoration: none;
+    font-size: 30px;
+    align-items: flex-end;
+}
+
+.ocultar{
+    display: none;
+}
+
+
+
+
