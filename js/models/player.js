@@ -195,21 +195,17 @@ class Player {
     getDamageZombie(){
        
         this.contDamage ++;
-
         
         if (this.contDamage > 50){
             this.ctx.fillStyle = "red";
             this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
             this.lives--;
             this.contDamage = 0;
-
-            console.log('recibe daño ', this.lives)
         }
 
         if (this.lives < 1){
             this.isDead = true;
             this.sprite.isReady = false;
-            console.log( 'muere' )
         }
     }
 
@@ -221,12 +217,10 @@ class Player {
 
         this.ctx.fillRect(0,0,this.ctx.canvas.width, this.ctx.canvas.height)
 
-        console.log('recibe daño ', this.lives)
-
         if (this.lives < 1) {
             this.isDead = true;
             this.sprite.isReady = false;
-            console.log('muere')
+        
         }
     }
 

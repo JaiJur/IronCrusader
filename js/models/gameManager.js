@@ -7,7 +7,8 @@ class GameManager{
         this.canvas.height = 1024;
         this. ctx = this.canvas.getContext('2d');
 
-        this.drawIntervalId = undefined;
+        this.restartInterval = undefined;
+        
         this.fps = 1000/60;
 
         this.background = new Background(this.ctx);
@@ -25,9 +26,13 @@ class GameManager{
         this.turretBulletsArr = []
 
         this.crono = new Crono;
+        this.reStartCrono = 0;
         this.score = 0;
-        this.toRestart = false;
+        this.lastScore = 0;
         this.kills = 0;
+
+        this.toRestart = false;
+        
     }
 
     mouseMove(target){
@@ -55,6 +60,8 @@ class GameManager{
 
     start(){
 
+        this.drawStartGame();
+
         this.score = 0;
         this.kills = 0;
 
@@ -75,28 +82,43 @@ class GameManager{
         }
     }
 
+    drawStartGame(){
+
+        console.log('1')
+        console.log('2')
+        console.log('3')
+        console.log('GO')
+
+    }
+
     update(){
 
         this.crono.printTime()
         this.setGameStats()
         this.player.setLivesStats();
+        console.log(this.lastScore)
 
         if (this.player.isDead){
 
             this.toRestart = true;
 
-            console.log(`el tiempo: ${this.crono.minutes}:${this.crono.seconds}, puntuación total ${this.score + this.crono.seconds}  y has matado ${this.kills} enemigos`)
-           
-            let bestScore = document.getElementById('data-best')
-            let lastScore = document.getElementById('data-last')
+            console.log(`el tiempo: ${this.crono.minutes}:${this.crono.seconds}, puntuación total ${this.score + this.crono.seconds}  y has matado ${this.kills} enemigos`)            
 
-            lastScore.innerHTML = this.score + Math.floor(this.crono.countTime / 60);
+            let bestScoreID = document.getElementById('data-best')
+            let lastScoreID = document.getElementById('data-last')
 
-            if (this.score > lastScore){
-                bestScore.innerHTML = this.score + Math.floor(this.crono.countTime / 60);
+            if (this.score <= this.lastScore){
+                console.log('el ultimo es mayor')
+                lastScoreID.innerHTML = this.score + Math.floor(this.crono.countTime / 60);
+
             } else {
-                
+                console.log('el ultimo es menor')
+                this.lastScore = this.score + Math.floor(this.crono.countTime / 60);
+                lastScoreID.innerHTML = this.score + Math.floor(this.crono.countTime / 60);
+                bestScoreID.innerHTML = this.score + Math.floor(this.crono.countTime / 60);
             }
+                
+            
             
             this.resetEnemies();
             this.stop();
@@ -305,7 +327,6 @@ class GameManager{
 
         let kills = document.getElementById('data-kills')
         let score = document.getElementById('data-score')
-        
 
         kills.innerHTML = this.kills;
         score.innerHTML = this.score + Math.floor(this.crono.countTime/60);
